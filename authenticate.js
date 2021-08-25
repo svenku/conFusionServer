@@ -37,3 +37,12 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
   }));
 
 exports.verifyUser = passport.authenticate('jwt', {session: false});
+
+exports.verifyAdmin = (req, res, next) => {
+  if (!req.user.admin) {
+    err = new Error("Administrator rights required!");
+    err.status = 403;
+    next(err);
+  }
+  next();
+}
